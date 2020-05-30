@@ -1,0 +1,54 @@
+<!-- Fetch astronomy picture of the day from NASA API -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React Hyttinen</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+      function RestWeather() {
+        const [city, setCity] = React.useState('');
+        const [temperature, setTemperature] = React.useState('');
+        const [weather, setWeather] = React.useState('');
+        const [url, setUrl] = React.useState('');
+        const [isReady, setReady] = React.useState(false);
+        
+        React.useEffect(() => {
+          fetch('http://api.openweathermap.org/data/2.5/weather?lang=en&q=helsinki&units=metric&APPID=ac3b723dfea3e632a2bda9e38f05f3be')
+          .then(response => response.json()) 
+          .then(responseData => {
+            console.log(responseData);
+            setCity(responseData.name);
+            setTemperature(responseData.main.temp);
+            setWeather(responseData.weather[0].description);
+            setUrl(responseData.weather[0].icon);
+            setReady(true);
+          });
+        }, [])
+
+        if (!isReady) {
+          return <p>Loading...</p>
+        }
+
+        return (
+          <div>
+            <h1>{city}</h1>
+            <p>Temperature: {temperature}°C</p>
+            <p>Weather: {weather}</p>
+            <img src={`http://openweathermap.org/img/w/${url}.png`} />
+          </div>
+        );
+      };
+
+      ReactDOM.render(<RestWeather />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

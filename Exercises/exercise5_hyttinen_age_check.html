@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>React getting started - Hyttinen</title>
+</head>
+
+<body>
+    <!-- Root container for react components -->
+    <div id='root'></div>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+
+        function AgeCheck() {
+            const [name, setName] = React.useState('');
+            const [age, setAge] = React.useState('');
+            const inputChanged = (event) => {
+                setName(event.target.value);
+            }
+            const inputChanged2 = (event) => {
+                setAge(event.target.value);
+            };
+
+            const formSubmitted = (event) => {
+                if (age > 17) {
+                    event.preventDefault();
+                    alert("Hello " + name + "!");
+                } else {
+                    event.preventDefault();
+                    alert("Too young!");
+                }
+            }
+
+                return (
+                    <div>
+                        <form onSubmit={formSubmitted}>
+                            <p>Name</p><input type="text" value={name} onChange={inputChanged} />
+                            <p>Age</p><input type="number" value={age} onChange={inputChanged2} />
+                            <input type="submit" value="Submit" />
+                        </form>
+                    </div>
+                );
+            };
+
+            ReactDOM.render(<AgeCheck />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>
